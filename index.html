@@ -1250,26 +1250,34 @@
 
         /* Mobile Menu */
         .mobile-menu-overlay {
-            display: none;
             position: fixed;
             inset: 0;
-            background: rgba(17, 24, 39, 0.6);
+            background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(4px);
-            z-index: 998;
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         .mobile-menu {
-            display: none;
             position: fixed;
             top: 0;
-            right: -100%;
+            right: -320px;
             width: 320px;
             height: 100%;
             background: var(--bg-white);
-            z-index: 999;
+            z-index: 1001;
             padding: 28px;
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: var(--shadow-xl);
+            overflow-y: auto;
         }
 
         .mobile-menu.active {
@@ -1356,6 +1364,18 @@
         .mobile-social a:hover {
             background: var(--gradient-primary);
             transform: translateY(-3px);
+        }
+
+        @media (max-width: 380px) {
+            .mobile-menu {
+                width: 280px;
+                right: -280px;
+                padding: 20px;
+            }
+
+            .mobile-menu.active {
+                right: 0;
+            }
         }
 
         /* Responsive */
@@ -2937,7 +2957,7 @@ Type "<span class="highlight">help</span>" to see available commands.
 
         const toggleMobileMenu = () => {
             mobileMenu.classList.toggle('active');
-            mobileMenuOverlay.style.display = mobileMenu.classList.contains('active') ? 'block' : 'none';
+            mobileMenuOverlay.classList.toggle('active');
             document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
         };
 
